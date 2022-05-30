@@ -42,4 +42,18 @@ def lowest_closing(list_val):
     return (date, low_value)
 
 
-open_files()
+def top_ten_highest_closing(list_val):
+    top_ten = []
+    sorted_list = sorted(list_val, reverse=True, key=lambda x:x[4])
+    for val in range(10):
+        top_ten.append((sorted_list[val][0], sorted_list[val][4]))
+    return top_ten
+
+
+def top_ten_lowest_open(list_val):
+    low_ten = []
+    sorted_list = sorted(list_val, key=lambda x:x[1])
+    for val in range(10):
+        low_ten.append((sorted_list[val][0],sorted_list[val][1]))
+    return low_ten
+

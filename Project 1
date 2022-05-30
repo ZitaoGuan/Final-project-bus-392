@@ -1,1 +1,20 @@
+def open_files():
+    file_name = input("Enter the file name: ")
+    try:
+        file_open = open(str(file_name), mode= "r")
+        return file_open
+    except FileNotFoundError:
+        print("File not found, please input the correct file")
+        quit()
+    except:
+        print("File does not work or does not have permission")
+        quit()
 
+def highest_closing(list_val):
+    high_value = 0
+    date = 0
+    for val in list_val:
+        if val[1] > 0:
+            high_value = val[1]
+            date = val[0]
+        

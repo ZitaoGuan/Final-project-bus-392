@@ -1,10 +1,10 @@
 import csv
 
 def open_files():
-    file_name = input("Enter the file name: ")
+    # file_name = input("Enter the file name: ")
     try:
         tickers = []
-        with open('Download Data - STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
+        with open('STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
             for ticker in ticker_file:
                 tickers.append(ticker.rstrip())
             print(tickers)

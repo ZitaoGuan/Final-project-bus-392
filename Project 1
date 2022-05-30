@@ -4,9 +4,11 @@ import csv
 def open_files():
     file_name = input("Enter the file name: ")
     try:
-        file_open = open("STOCK_US_XNYS_DIS.CSV")
-        read = csv.reader(file_open)
-        print(read)
+        file_open = with open ('Download Data - STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
+            for ticker in ticker_file:
+            ticker.append(ticker.strip())
+        # read = csv.reader(file_open)
+        # print(read)
     except FileNotFoundError:
         print("File not found, please input the correct file")
         quit()

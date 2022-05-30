@@ -6,8 +6,11 @@ def open_files():
         tickers = []
         with open('STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
             for ticker in ticker_file:
-                tickers.append(ticker.rstrip())
-            print(tickers)
+                lines = ticker_file.read()
+                list_in_list = lines.splitlines()
+            print(list_in_list)
+                # tickers.append(ticker.rstrip())
+            #print(tickers)
         # read = csv.reader(file_open)
         # print(read)
     except FileNotFoundError:

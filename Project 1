@@ -1,12 +1,13 @@
 import csv
 
-
 def open_files():
     file_name = input("Enter the file name: ")
     try:
-        file_open = with open ('Download Data - STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
+        tickers = []
+        with open('Download Data - STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
             for ticker in ticker_file:
-            ticker.append(ticker.strip())
+                tickers.append(ticker.rstrip())
+            print(tickers)
         # read = csv.reader(file_open)
         # print(read)
     except FileNotFoundError:

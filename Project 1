@@ -3,21 +3,18 @@ import csv
 def open_files():
     # file_name = input("Enter the file name: ")
     try:
-        tickers = []
+        # tickers = []
         with open('STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
-            for ticker in ticker_file:
-                lines = ticker_file.read()
-                list_in_list = lines.splitlines()
-            print(list_in_list)
+            for line in ticker_file:
+                lines = list(csv.reader(ticker_file))
+                
+            print(lines)
                 # tickers.append(ticker.rstrip())
             #print(tickers)
         # read = csv.reader(file_open)
         # print(read)
     except FileNotFoundError:
         print("File not found, please input the correct file")
-        quit()
-    except:
-        print("File does not work or does not have permission")
         quit()
 
 

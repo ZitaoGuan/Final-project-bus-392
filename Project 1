@@ -1,8 +1,12 @@
+import csv
+
+
 def open_files():
     file_name = input("Enter the file name: ")
     try:
-        file_open = open(str(file_name), mode= "r")
-        return file_open
+        file_open = open("STOCK_US_XNYS_DIS.CSV")
+        read = csv.reader(file_open)
+        print(read)
     except FileNotFoundError:
         print("File not found, please input the correct file")
         quit()
@@ -10,11 +14,29 @@ def open_files():
         print("File does not work or does not have permission")
         quit()
 
+
+def read_file():
+    pass
+
+
 def highest_closing(list_val):
     high_value = 0
     date = 0
     for val in list_val:
-        if val[1] > 0:
-            high_value = val[1]
+        if val[4] > high_value:
+            high_value = val[4]
             date = val[0]
-        
+    return (date, high_value)
+
+
+def lowest_closing(list_val):
+    low_value = 0
+    date = 0
+    for val in list_val:
+        if val[1] < low_value:
+            low_value = val[1]
+            date = val[0]
+    return (date, low_value)
+
+
+open_files()

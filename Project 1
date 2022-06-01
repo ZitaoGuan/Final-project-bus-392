@@ -76,22 +76,22 @@ def one_month_average(list_opening):
 
 
 def average_month_opening(list_val, months):
-    print(months)
     list_average = []
-    prev_num = 0
     starting_point = 0
     for list_mon in months:
         count = 0
         list_one_opening = []
         for list_num in range(starting_point, len(list_val)):
-            print(list_num)
             date_list = list_val[list_num][0].split('/')
-            if date_list[0] == list_mon:
-                list_one_opening.append(list_val[list_num][1])
-                count += 1
+            if list_num + 1 == len(list_val) and date_list[0] == list_mon:
+                list_average.append((list_mon, list_val[list_num][1]))
+                break
             elif date_list[0] != list_mon and count > 0:
-                list_average.append(one_month_average(list_one_opening))
+                list_average.append(
+                    (list_mon, one_month_average(list_one_opening))
+                )
                 starting_point = list_num
                 break
-            elif list_num == len(list_val) and 
-    print(list_average)
+            list_one_opening.append(list_val[list_num][1])
+            count += 1
+    return list_average

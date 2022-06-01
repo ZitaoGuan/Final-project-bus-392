@@ -5,6 +5,7 @@ def open_files():
     try:
         file_open = open(file_name, mode="r")
         print(file_open)
+        file_open.close()
     except FileNotFoundError:
         print("File not found, please input the correct file")
         quit()
@@ -52,3 +53,45 @@ def top_ten_lowest_open(list_val):
         low_ten.append((sorted_list[val][0],sorted_list[val][1]))
     return low_ten
 
+
+def get_month(list_val):
+    list_month = []
+    for list_num in list_val:
+        date_list = list_num[0].split('/')
+        list_month.append(date_list[0])
+    return list_month
+
+
+def filter_month(list_mon):
+    filter_list = []
+    for months in list_mon:
+        if months in filter_list:
+            continue
+        filter_list.append(months)
+    return filter_list
+
+
+def one_month_average(list_opening):
+    return sum(list_opening)/len(list_opening)
+
+
+def average_month_opening(list_val, months):
+    print(months)
+    list_average = []
+    prev_num = 0
+    starting_point = 0
+    for list_mon in months:
+        count = 0
+        list_one_opening = []
+        for list_num in range(starting_point, len(list_val)):
+            print(list_num)
+            date_list = list_val[list_num][0].split('/')
+            if date_list[0] == list_mon:
+                list_one_opening.append(list_val[list_num][1])
+                count += 1
+            elif date_list[0] != list_mon and count > 0:
+                list_average.append(one_month_average(list_one_opening))
+                starting_point = list_num
+                break
+            elif list_num == len(list_val) and 
+    print(list_average)

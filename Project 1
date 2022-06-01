@@ -1,20 +1,15 @@
 import csv
 
 def open_files():
-    # file_name = input("Enter the file name: ")
+    file_name = input("Enter the file name: ")
     try:
-        # tickers = []
-        with open('STOCK_US_XNYS_DIS.csv', "r") as ticker_file:
-            for line in ticker_file:
-                lines = list(csv.reader(ticker_file))
-                
-            print(lines)
-                # tickers.append(ticker.rstrip())
-            #print(tickers)
-        # read = csv.reader(file_open)
-        # print(read)
+        file_open = open(file_name, mode="r")
+        print(file_open)
     except FileNotFoundError:
         print("File not found, please input the correct file")
+        quit()
+    except:
+        print("File does not work or does not have permission")
         quit()
 
 

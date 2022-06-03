@@ -405,6 +405,10 @@ def ten_lowest_opening_prices(tuple_10_lowest_opening):
         #Creating the places where the values and corresponding dates will appear
         #The %s is a placeholder for the strings date and the corresponding lowest opening prices
         print("%8s        |$%s" % (date, lowest_val))
+        
+        
+opening_graph(dates, values)
+closing_graph(dates, values)
 
 
 

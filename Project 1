@@ -1,22 +1,67 @@
-import csv
+#initalizing lists
+
+#holds each line of data from txt file
+newlineHolder_list = []
+#holds each line of data from txt file
+lineHolder_list = []
+#holds every date from each line [string]
+date_list = []
+#holds every open from each line [string]
+open_list = []
+#holds every open from each line [float]
+high_list = []
+#holds every high from each line [float]
+low_list = []
+#holds every low from each line [float]
+close_list = []
+#holds every flose from each line [float]
+volume_list = []
+#holds every volume from each line [float]
 
 def open_files():
+    #asks user which file they want to read from
     file_name = input("Enter the file name: ")
     try:
-        file_open = open(file_name, mode="r")
-        print(file_open)
-        file_open.close()
+        #opens file as data file
+        with open(file_name, "r") as data_file:
+            #foreach loop, line represents each line of data from txt file
+            for data in data_file:
+                line = data.splitlines()
+                #foreach loop, so we can split the line into each indivdual data
+                for str in line:
+                    x = str.replace(",", "\n", 5)
+                    y = x.replace('"', '')
+                    #append each data we splitted
+                    lineHolder_list.append(y.splitlines())
+            #removed the first line which is [Date,Open,High,Low,Close,Volume]
+            #because these are all strings which cant be converted into a float
+            lineHolder_list.pop(0)
+            #foreach loop, store each data type into list and at the same time making it the desire data type we want
+            for line in lineHolder_list:
+                date_list.append(line[0])
+                open_list.append(float(line[1]))
+                high_list.append(float(line[2]))
+                low_list.append(float(line[3]))
+                close_list.append(float(line[4]))
+                volume_list.append(float((line[5]).replace(",", "")))
+
+            for i in range(0, len(date_list)):
+                newlineHolder_list.append([date_list[i],open_list[i], high_list[i],low_list[i],close_list[i],volume_list[i]])
+
+            # print(date_list)
+            # print(open_list)
+            # print(high_list)
+            # print(low_list)
+            # print(close_list)
+            # print(volume_list)
+            # print(newlineHolder_list)
+
     except FileNotFoundError:
         print("File not found, please input the correct file")
         quit()
     except:
         print("File does not work or does not have permission")
         quit()
-
-
-def read_file():
-    pass
-
 
 def highest_closing(list_val):
     high_value = 0
@@ -53,45 +98,4 @@ def top_ten_lowest_open(list_val):
         low_ten.append((sorted_list[val][0],sorted_list[val][1]))
     return low_ten
 
-
-def get_month(list_val):
-    list_month = []
-    for list_num in list_val:
-        date_list = list_num[0].split('/')
-        list_month.append(date_list[0])
-    return list_month
-
-
-def filter_month(list_mon):
-    filter_list = []
-    for months in list_mon:
-        if months in filter_list:
-            continue
-        filter_list.append(months)
-    return filter_list
-
-
-def one_month_average(list_opening):
-    return sum(list_opening)/len(list_opening)
-
-
-def average_month_opening(list_val, months):
-    list_average = []
-    starting_point = 0
-    for list_mon in months:
-        count = 0
-        list_one_opening = []
-        for list_num in range(starting_point, len(list_val)):
-            date_list = list_val[list_num][0].split('/')
-            if list_num + 1 == len(list_val) and date_list[0] == list_mon:
-                list_average.append((list_mon, list_val[list_num][1]))
-                break
-            elif date_list[0] != list_mon and count > 0:
-                list_average.append(
-                    (list_mon, one_month_average(list_one_opening))
-                )
-                starting_point = list_num
-                break
-            list_one_opening.append(list_val[list_num][1])
-            count += 1
-    return list_average
+open_files()

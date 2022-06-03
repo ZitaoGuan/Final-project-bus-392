@@ -1,4 +1,5 @@
 import matplotlib as ply
+import matplotlib.pyplot as plt
 from datetime import datetime
 
 
@@ -262,3 +263,39 @@ def convert_tuple_avg(list_tuple):
     for val_tuple in list_tuple:
         list_avg.append(val_tuple[1])
     return list_avg
+
+def opening_graph(list_dates, list_opening_avg):
+    plt.figure(1)
+    plt.plot(list_dates, list_opening_avg)
+    plt.title('Average Opening Prices For Each Month ')
+    plt.xlabel('Dates')
+    plt.ylabel('Average Opening Price')
+
+    plt.savefig('BUS-392-Opening-test.png')
+    plt.show()
+
+def closing_graph(list_dates, list_closing_avg):
+    plt.figure(2)
+    plt.plot(list_dates, list_closing_avg)
+    plt.title('Average Closing Prices For Each Month ')
+    plt.xlabel('Dates')
+    plt.ylabel('Average Closing Price')
+
+    plt.savefig('BUS-392-Closing-test.png')
+    plt.show()
+
+# def two_graphs():
+#     opening_graph(dates, values)
+#     plt.savefig('BUS-392-Opening-test.png')
+#     closing_graph(dates, values2)
+#     plt.savefig('BUS-392-Closing-test.png')
+#     plt.show()
+
+#open_files()
+
+dates = ['07/3232', '12/3232', '01/3232', '02/3232', '03/3232']
+values = [1.75, 6.0, 1.0, 1.0, 3.0]
+values2 = [1.82, 7.0, 5.0, 2.0, 2.0]
+# open_price_graph(dates, values)
+# closing_price_graph(dates, values)
+# two_graphs()

@@ -1,25 +1,27 @@
-#initalizing lists
-
-#holds each line of data from txt file
-newlineHolder_list = []
-#holds each line of data from txt file
-lineHolder_list = []
-#holds every date from each line [string]
-date_list = []
-#holds every open from each line [string]
-open_list = []
-#holds every open from each line [float]
-high_list = []
-#holds every high from each line [float]
-low_list = []
-#holds every low from each line [float]
-close_list = []
-#holds every flose from each line [float]
-volume_list = []
-#holds every volume from each line [float]
+import matplotlib as ply
+from datetime import datetime
 
 
 def open_files():
+    #initalizing lists
+
+    #holds each line of data from txt file
+    newlineHolder_list = []
+    #holds each line of data from txt file
+    lineHolder_list = []
+    #holds every date from each line [string]
+    date_list = []
+    #holds every open from each line [string]
+    open_list = []
+    #holds every open from each line [float]
+    high_list = []
+    #holds every high from each line [float]
+    low_list = []
+    #holds every low from each line [float]
+    close_list = []
+    #holds every flose from each line [float]
+    volume_list = []
+    #holds every volume from each line [float]
     #asks user which file they want to read from
     file_name = input("Enter the file name: ")
     try:
@@ -48,14 +50,8 @@ def open_files():
 
             for i in range(0, len(date_list)):
                 newlineHolder_list.append([date_list[i],open_list[i], high_list[i],low_list[i],close_list[i],volume_list[i]])
-
-            # print(date_list)
-            # print(open_list)
-            # print(high_list)
-            # print(low_list)
-            # print(close_list)
-            # print(volume_list)
-            # print(newlineHolder_list)
+            
+            print(newlineHolder_list)
 
     except FileNotFoundError:
         print("File not found, please input the correct file")
@@ -88,33 +84,61 @@ def highest_closing(list_of_list):
             high_value = list_val[4]
             #set the date to the date varibale to the day the price occur
             date = list_val[0]
-    #returns the date and high value variables in a tuple
+    #returns the date and high_value variables in a tuple
     return (date, high_value)
 
 
 def lowest_opening(list_of_list):
-    """Find the highest closing price from a list of list.
+    """Find the lowest opening price from a list of list.
 
     Args:
         list_of_list: a list of list of the prices and dates
 
     Returns:
-        a tuple of both the date and the highest closing price
+        a tuple of both the date and the lowest opening price
 
     """
+    #create variable to hold the lowest opening price
     low_value = 0
+    #create variable the day the lowest opening price occur
     date = 0
+    #initalize a for loop to look through the list of list
     for list_val in list_of_list:
+        # if the value located in the 1th index of the 
+        # list is lower than the variable low_value
         if list_val[1] < low_value:
+            #set the low_value variable to the lowest opening in the list
             low_value = list_val[1]
+            #set the date to the date varibale to the day the price occur
             date = list_val[0]
+    #returns the date and low_value variables in a tuple
     return (date, low_value)
 
 
 def top_ten_highest_closing(list_of_list):
+    """Find the ten highest prices from a list of list.
+
+    Args:
+        list_of_list: a list of list of the prices and dates
+
+    Returns:
+        a list of tuple that has the ten highest prices and the dates that it occur
+
+    """
+    #create an empty list
     top_ten = []
+    #set a variable to a sorted of the list
+    #The sorted function will create a new list 
+    #that is sorted from highest value to the lowest value
+    #the reverse=True allow me to create that
+    #The key=lambda x:x [4] is a function that let me look through the
+    #list of list and only picking the value in the 4th index from that list
+    #within the list
     sorted_list = sorted(list_of_list, reverse=True, key=lambda x:x[4])
+    # initalize a for loop to only loop 10 times
     for index in range(10):
+        # Append the sorted list by going through each of the 
+        # list only up to the tenth one 
         top_ten.append((sorted_list[index][0], sorted_list[index][4]))
     return top_ten
 

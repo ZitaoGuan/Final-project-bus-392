@@ -536,35 +536,36 @@ def convert_to_str(value):
 
     """
     #establishing the variable f_value equal to the value as a float
+    value += 0.001
     f_value = (float(value))
      #if the f_value variable is greater or equal to 1000, but less than 10000
     if f_value >= 1000 and f_value < 10000:
         #set the var s_string to f_value as a string
         s_value = str(f_value)
         #return the var s_value and make it so that there is a comma after the first number
-        return s_value[0] + ',' + s_value[1:]
+        return s_value[0] + ',' + s_value[1:len(s_value) - 1]
     #if the f_value variable is greater or equal to 10000, but less than 100000
     elif f_value >= 10000 and f_value < 100000:
         #set the s_value to f_value as a string
         s_value = str(f_value)
         #return the var s_value and make it so that a comma is inserted after the first 2 numbers
-        return s_value[:2] + ',' + s_value[2:]
+        return s_value[:2] + ',' + s_value[2:len(s_value) - 1]
     #if the f_value variable is greater or equal to 100000, but less than 1000000
     elif f_value >= 100000 and f_value < 1000000:
         #set the s_valu to f_value as a string
         s_value = str(f_value)
         #return the s_value and make it so that a comma is insertd after the first 3 numbers
-        return s_value[:3] + ',' + s_value[3:]
+        return s_value[:3] + ',' + s_value[3:len(s_value) - 1]
     #if the f_value variable is greater or equal to 1000000, but less than 10000
     elif f_value >= 1000000 and f_value < 10000000:
         #set the var s_value to f_value as a string
         s_value = str(f_value)
         #return the s_value and make it so that a comma is inserted after the first number, and every 3 numbers
-        return s_value[0] + ',' + s_value[1:4] + ',' + s_value[4:]
+        return s_value[0] + ',' + s_value[1:4] + ',' + s_value[4:len(s_value) - 1]
     #if else (none of the above)
     else:
         #return f_value as a string
-        return str(f_value)
+        return s_value[:len(s_value) - 1]
     
 
 
@@ -674,7 +675,7 @@ def show_highest_closing_price(tuple_highest_closing):
     #Printing a divider
     print('------------------------------------------')
     #Creating the %s is a placeholder for string which is the date and highest value closing price
-    print("%8s      |$%s" % (date, highest_value))
+    print("%8s      |$%.5s" % (date, highest_value))
     #Printing a seperating gap 
     print()
 
@@ -699,7 +700,7 @@ def show_lowest_opening_price(tuple_lowest_opening):
     print('------------------------------------------')
     #Creating the place where the values will appear. 
     #The %s is a placeholder for the strings date and lowest opening price
-    print("%8s      |$%s" % (date, lowest_value))
+    print("%8s      |$%.5s" % (date, lowest_value))
     #Printing a seperate gap
     print()
 
@@ -726,7 +727,7 @@ def ten_highest_closing_prices(tuple_10_highest_closing):
         highest_val = val_tuple[1]
         #Creating the places where the values and corresponding dates will appear
         #The %s is a placeholder for the strings date and the corresponding highest closing prices
-        print("%8s      |$%s" % (date, highest_val))
+        print("%8s        |$%.5s" % (date, highest_val))
     #Printing a blank line
     print()
 
@@ -753,7 +754,7 @@ def ten_lowest_opening_prices(tuple_10_lowest_opening):
         lowest_val = val_tuple[1]
         #Creating the places where the values and corresponding dates will appear
         #The %s is a placeholder for the strings date and the corresponding lowest opening prices
-        print("%8s      |$%s" % (date, lowest_val))
+        print("%8s        |$%.5s" % (date, lowest_val))
     #printing a blank line
     print()
 

@@ -18,6 +18,7 @@ close_list = []
 volume_list = []
 #holds every volume from each line [float]
 
+
 def open_files():
     #asks user which file they want to read from
     file_name = input("Enter the file name: ")
@@ -63,39 +64,177 @@ def open_files():
         print("File does not work or does not have permission")
         quit()
 
-def highest_closing(list_val):
+
+def highest_closing(list_of_list):
+    """Find the highest closing price from a list of list.
+
+    Args:
+        list_of_list: a list of list of the prices and dates
+
+    Returns:
+        a tuple of both the date and the highest closing price
+
+    """
+    #create variable to hold the highest closing price
     high_value = 0
+    #create variable the day the highest closing price occur
     date = 0
-    for val in list_val:
-        if val[4] > high_value:
-            high_value = val[4]
-            date = val[0]
+    #initalize a for loop to look through the list of list
+    for list_val in list_of_list:
+        # if the value located in the 4th index of the 
+        # list is higher than the variable high_Value
+        if list_val[4] > high_value:
+            #set the high_value variable to the closing price in the list
+            high_value = list_val[4]
+            #set the date to the date varibale to the day the price occur
+            date = list_val[0]
+    #returns the date and high value variables in a tuple
     return (date, high_value)
 
 
-def lowest_closing(list_val):
+def lowest_opening(list_of_list):
+    """Find the highest closing price from a list of list.
+
+    Args:
+        list_of_list: a list of list of the prices and dates
+
+    Returns:
+        a tuple of both the date and the highest closing price
+
+    """
     low_value = 0
     date = 0
-    for val in list_val:
-        if val[1] < low_value:
-            low_value = val[1]
-            date = val[0]
+    for list_val in list_of_list:
+        if list_val[1] < low_value:
+            low_value = list_val[1]
+            date = list_val[0]
     return (date, low_value)
 
 
-def top_ten_highest_closing(list_val):
+def top_ten_highest_closing(list_of_list):
     top_ten = []
-    sorted_list = sorted(list_val, reverse=True, key=lambda x:x[4])
-    for val in range(10):
-        top_ten.append((sorted_list[val][0], sorted_list[val][4]))
+    sorted_list = sorted(list_of_list, reverse=True, key=lambda x:x[4])
+    for index in range(10):
+        top_ten.append((sorted_list[index][0], sorted_list[index][4]))
     return top_ten
 
 
-def top_ten_lowest_open(list_val):
+def top_ten_lowest_opening(list_of_list):
     low_ten = []
-    sorted_list = sorted(list_val, key=lambda x:x[1])
-    for val in range(10):
-        low_ten.append((sorted_list[val][0],sorted_list[val][1]))
+    sorted_list = sorted(list_of_list, key=lambda x:x[1])
+    for index in range(10):
+        low_ten.append((sorted_list[index][0],sorted_list[index][1]))
     return low_ten
 
-open_files()
+
+def filter_month(list_of_list):
+    list_filter_month = []
+    for list_val in list_of_list:
+        if (list_val[0][:2]+'/'+list_val[0][6:10])in list_filter_month:
+            continue
+        list_filter_month.append(list_val[0][:2]+'/'+list_val[0][6:10])
+    return list_filter_month
+
+
+def one_month_average(list_opening):
+    return sum(list_opening)/len(list_opening)
+
+
+def average_month_opening(list_of_list, months):
+    """
+    Parameter: 
+        list_of_list: a list of a list of value from the csv file 
+        months :a list of months as well as years
+    returns:
+        a list of tuple of all the average for every months' opening price
+    """
+    list_average_opening = []
+    starting_point = 0
+    for list_mon in months:
+        month_year = list_mon.split('/')
+        list_one_opening = []
+        for list_index in range(starting_point, len(list_of_list)):
+            date_list = list_of_list[list_index][0].split('/')
+            if list_index + 1 == len(list_of_list) and\
+                month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+                starting_point = list_index
+                break
+            elif list_index + 1 == len(list_of_list) and\
+                (month_year[0] == date_list[0] and\
+                month_year[1] == date_list[2]) and\
+                months.index(list_mon) + 1 == len(months):
+                list_one_opening.append(list_of_list[list_index][1])
+                list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+            elif list_index + 1 == len(list_of_list) and\
+                (month_year[0] == date_list[0] and\
+                month_year[1] == date_list[2]):
+                list_one_opening = []
+                list_one_opening.append(list_of_list[list_index][1])
+                list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+            elif month_year[0] == date_list[0] and month_year[1] == date_list[2]:
+                list_one_opening.append(list_of_list[list_index][1])
+            elif month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                list_average_opening.append(
+                    (list_mon, one_month_average(list_one_opening))
+                )
+                starting_point = list_index
+                break
+    return list_average_opening
+
+
+def average_month_closing(list_of_list, months):
+    """
+    Parameter: 
+        list_of_list: a list of a list of value from the csv file 
+        months :a list of months as well as years
+    returns:
+        a list of tuple of all the average for every months' closing price
+    """
+    list_average_closing = []
+    starting_point = 0
+    for list_mon in months:
+        month_year = list_mon.split('/')
+        list_one_closing = []
+        for list_index in range(starting_point, len(list_of_list)):
+            date_list = list_of_list[list_index][0].split('/')
+            if list_index + 1 == len(list_of_list) and\
+                month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+                starting_point = list_index
+                break
+            elif list_index + 1 == len(list_of_list) and\
+                (month_year[0] == date_list[0] and\
+                month_year[1] == date_list[2]) and\
+                months.index(list_mon) + 1 == len(months):
+                list_one_closing.append(list_of_list[list_index][4])
+                list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+            elif list_index + 1 == len(list_of_list) and\
+                (month_year[0] == date_list[0] and\
+                month_year[1] == date_list[2]):
+                list_one_closing = []
+                list_one_closing.append(list_of_list[list_index][4])
+                list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+            elif month_year[0] == date_list[0] and month_year[1] == date_list[2]:
+                list_one_closing.append(list_of_list[list_index][4])
+            elif month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                list_average_closing.append(
+                    (list_mon, one_month_average(list_one_closing))
+                )
+                starting_point = list_index
+                break
+    return list_average_closing
+
+
+def convert_tuple_date(list_tuple):
+    list_date = []
+    for val_tuple in list_tuple:
+        list_date.append(val_tuple[0])
+    return list_date
+
+
+def convert_tuple_avg(list_tuple):
+    list_avg = []
+    for val_tuple in list_tuple:
+        list_avg.append(val_tuple[1])
+    return list_avg

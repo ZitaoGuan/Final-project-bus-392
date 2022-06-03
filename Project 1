@@ -1,39 +1,43 @@
+from re import S
 import matplotlib as ply
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-
+# Define the function open_files to open the file
 def open_files():
-    #initalizing lists
-
+    #initalize lists
     #holds each line of data from txt file
     newlineHolder_list = []
     #holds each line of data from txt file
     lineHolder_list = []
     #holds every date from each line [string]
     date_list = []
-    #holds every open from each line [string]
+    #holds every opening price from each line [string]
     open_list = []
-    #holds every open from each line [float]
+    #holds every highest price from each line [float]
     high_list = []
-    #holds every high from each line [float]
+    #holds every lowest price from each line [float]
     low_list = []
-    #holds every low from each line [float]
+    #holds every closing price from each line [float]
     close_list = []
-    #holds every flose from each line [float]
-    volume_list = []
     #holds every volume from each line [float]
+    volume_list = []
+    
     #asks user which file they want to read from
     file_name = input("Enter the file name: ")
+    #First Try to...
     try:
         #opens file as data file
         with open(file_name, "r") as data_file:
             #foreach loop, line represents each line of data from txt file
             for data in data_file:
+                #Split the lines so that they are seperate lists
                 line = data.splitlines()
                 #foreach loop, so we can split the line into each indivdual data
                 for str in line:
+                    #in the strings, replace , with a space
                     x = str.replace(",", "\n", 5)
+                    #In the strings of the list, replace the " with nothing
                     y = x.replace('"', '')
                     #append each data we splitted
                     lineHolder_list.append(y.splitlines())
@@ -42,23 +46,38 @@ def open_files():
             lineHolder_list.pop(0)
             #foreach loop, store each data type into list and at the same time making it the desire data type we want
             for line in lineHolder_list:
+                #Append the list of dates to line 0 (take out)
                 date_list.append(line[0])
+                #Append the opening prices list to line 1, and make them all floats (from strings)
                 open_list.append(float(line[1]))
+                #Append the high prices list to line 2, and make them all floats (from strings)
                 high_list.append(float(line[2]))
+                #Append the lowest prices list to line 3, and make them all floats (from strings)
                 low_list.append(float(line[3]))
+                #Append the closing prices list to line 4, and make them all floats (from strings)
                 close_list.append(float(line[4]))
+                #Append the volume amount list to line 5, and make them all floats (from strings)
                 volume_list.append(float((line[5]).replace(",", "")))
-
+            #start a for loop within the range of the length of the date list, starting from index 0
             for i in range(0, len(date_list)):
+                #Append the date list at index i, append the open list at index i, append the high list at index i
+                #append the close list at index i, append the volume list at index i
+                #All of these are in a list format appended to newlineHolder list
                 newlineHolder_list.append([date_list[i],open_list[i], high_list[i],low_list[i],close_list[i],volume_list[i]])
-            
+            #print the newlineHolder list
             print(newlineHolder_list)
 
+    #If there is a FileNotFound error:
     except FileNotFoundError:
+        #print error message
         print("File not found, please input the correct file")
+        #quitting the program
         quit()
+    #If anything else occurs (not in the try or other except)
     except:
+        #print error message 
         print("File does not work or does not have permission")
+        #quitting the program
         quit()
 
 
@@ -264,24 +283,39 @@ def convert_tuple_avg(list_tuple):
         list_avg.append(val_tuple[1])
     return list_avg
 
-def opening_graph(list_dates, list_opening_avg):
-    plt.figure(1)
-    plt.plot(list_dates, list_opening_avg)
-    plt.title('Average Opening Prices For Each Month ')
-    plt.xlabel('Dates')
-    plt.ylabel('Average Opening Price')
 
+#Define the opening graph function
+def opening_graph(list_dates, list_opening_avg):
+    #Creating figure 1 
+    plt.figure(1)
+    #Takes in a list of dates and list of opening prices to put on the graph
+    plt.plot(list_dates, list_opening_avg)
+    #Setting the title of the graph
+    plt.title('Average Opening Prices For Each Month ')
+    #Setting the x label to Dates
+    plt.xlabel('Dates')
+    #Setting the y axis label to Average opening price
+    plt.ylabel('Average Opening Price')
+    #Saving the figure as a png
     plt.savefig('BUS-392-Opening-test.png')
+    #Showing the graph
     plt.show()
 
+#Define the closing graph function
 def closing_graph(list_dates, list_closing_avg):
+    #Creating figure 2
     plt.figure(2)
+    #Take in a list of dates and a list of closing prices to put on the graph
     plt.plot(list_dates, list_closing_avg)
+    #Setting the title of the graph 
     plt.title('Average Closing Prices For Each Month ')
+    #Setting the x axis label to Dates
     plt.xlabel('Dates')
+    #Setting the y axis label to Average Closing Price
     plt.ylabel('Average Closing Price')
-
+    #Saving the figure as a png
     plt.savefig('BUS-392-Closing-test.png')
+    #Showing the graph
     plt.show()
 
 # def two_graphs():
@@ -299,3 +333,78 @@ values2 = [1.82, 7.0, 5.0, 2.0, 2.0]
 # open_price_graph(dates, values)
 # closing_price_graph(dates, values)
 # two_graphs()
+
+#Defining the highest closing price function
+def show_highest_closing_price(tuple_highest_closing):
+    #Setting Date to the first slot in the tuple
+    date = tuple_highest_closing[0]
+    #Setting the value to the second slot in the tuple
+    highest_value = tuple_highest_closing[1]
+    #Printing the Header for the collumns (Date and the correlating Highest Closing Price)
+    print("Date            |Highest closing price")
+    #Printing a divider
+    print('---------------------------------')
+    #Creating the %s is a placeholder for string which is the date and highest value closing price
+    print("%8s      |$%.2s" % (date, highest_value))
+    #Printing a seperating gap 
+    print()
+
+shcp_tuple = ("05/21/2021", 420.69)
+show_highest_closing_price(shcp_tuple)
+
+#Defining the lowest opening price function
+def show_lowest_opening_price(tuple_lowest_opening):
+    #Setting Date to the first slot in the tuple
+    date = tuple_lowest_opening[0]
+    #Setting the value to the second slot in the tuple
+    lowest_value = tuple_lowest_opening[1]
+    #Printing the header for the collumns (Date and the correlating Lowest opening price)
+    print("Date            |Lowest opening price")
+    #Printing a divider
+    print('---------------------------------')
+    #Creating the place where the values will appear. 
+    #The %s is a placeholder for the strings date and lowest opening price
+    print("%8s      |$%.2s" % (date, lowest_value))
+    #Printing a seperate gap
+    print()
+
+slop_tuple = ("03/24/2022", 30.2)
+show_lowest_opening_price(slop_tuple)
+
+#Defining the 10 highest closing prices function
+def ten_highest_closing_prices(tuple_10_highest_closing):
+    #Printing the header for the collumns (Date and the correlating 10 highest closing prices)
+    print("Date            |10 highest closing prices")
+    #Printing a divider
+    print('---------------------------------')
+    ##Start a for loop that goes through the 10 highest closing price list of tuples
+    for val_tuple in tuple_10_highest_closing:
+        #Setting date to the first slot in the tuple
+        date = val_tuple[0]
+        #Setting the value to the second slot in the tuple
+        highest_val = val_tuple[1]
+        #Creating the places where the values and corresponding dates will appear
+        #The %s is a placeholder for the strings date and the corresponding highest closing prices
+        print("%8s        |$%s" % (date, highest_val))
+
+ten_hc_tuple = ("03/13/2021", 62183.1)
+ten_highest_closing_prices(ten_hc_tuple)
+
+#Defining the 10 lowest opening prices function
+def ten_lowest_opening_prices(tuple_10_lowest_opening):
+    #Printing the header for the collumn (Date and the corresponding 10 lowest opening prices)
+    print("Date            |10 highest closing prices")
+    #Printing a divider
+    print('---------------------------------')
+    #Start a for loop that goes through the 10 lowest opening price list of tuples
+    for val_tuple in tuple_10_lowest_opening:
+        #Setting the date to the first slot in the tuple
+        date = val_tuple[0]
+        #Setting the value to the second slot in the tuple
+        lowest_val = val_tuple[1]
+        #Creating the places where the values and corresponding dates will appear
+        #The %s is a placeholder for the strings date and the corresponding lowest opening prices
+        print("%8s        |$%s" % (date, lowest_val))
+
+
+

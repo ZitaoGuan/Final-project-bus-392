@@ -81,6 +81,7 @@ def open_files():
         quit()
 
 
+# a function that takes a list of list and find the highest closing price and the month it occur
 def highest_closing(list_of_list):
     """Find the highest closing price from a list of list.
 
@@ -97,7 +98,7 @@ def highest_closing(list_of_list):
     date = 0
     #initalize a for loop to look through the list of list
     for list_val in list_of_list:
-        # if the value located in the 4th index of the 
+        # if statement if the value located in the 4th index of the 
         # list is higher than the variable high_Value
         if list_val[4] > high_value:
             #set the high_value variable to the closing price in the list
@@ -107,7 +108,7 @@ def highest_closing(list_of_list):
     #returns the date and high_value variables in a tuple
     return (date, high_value)
 
-
+# a function that takes a list of list and find the lowest opening price and the month it occur
 def lowest_opening(list_of_list):
     """Find the lowest opening price from a list of list.
 
@@ -124,7 +125,7 @@ def lowest_opening(list_of_list):
     date = 0
     #initalize a for loop to look through the list of list
     for list_val in list_of_list:
-        # if the value located in the 1th index of the 
+        # if statement if the value located in the zero index of the 
         # list is lower than the variable low_value
         if list_val[1] < low_value:
             #set the low_value variable to the lowest opening in the list
@@ -134,7 +135,7 @@ def lowest_opening(list_of_list):
     #returns the date and low_value variables in a tuple
     return (date, low_value)
 
-
+# a function that takes a list of list and find the ten highest closing price along with the month
 def top_ten_highest_closing(list_of_list):
     """Find the ten highest prices from a list of list.
 
@@ -152,136 +153,399 @@ def top_ten_highest_closing(list_of_list):
     #that is sorted from highest value to the lowest value
     #the reverse=True allow me to create that
     #The key=lambda x:x [4] is a function that let me look through the
-    #list of list and only picking the value in the 4th index from that list
+    #list of list and only picking the value in the zero index from that list
     #within the list
     sorted_list = sorted(list_of_list, reverse=True, key=lambda x:x[4])
     # initalize a for loop to only loop 10 times
     for index in range(10):
         # Append the sorted list by going through each of the 
-        # list only up to the tenth one 
+        # list by using the [index] and it would go up 10 times.
+        # It would then look at the zero index of that list and 
+        # append it along with the zero index within that list
+        #This would append those results into the top_ten list in the form of a tuple
         top_ten.append((sorted_list[index][0], sorted_list[index][4]))
+    #return the list of tuple containing the top 10 highest closing price with their dates
     return top_ten
 
-
+# a function that takes a list of list and find the ten lowest opening price along with the month
 def top_ten_lowest_opening(list_of_list):
+    """Find the ten highest prices from a list of list.
+
+    Args:
+        list_of_list: a list of list of the prices and dates
+
+    Returns:
+        a list of tuple that has the ten highest prices and the dates that it occur
+
+    """
+    #create an empty list
     low_ten = []
+    #set a variable to a sorted of the list
+    #The sorted function will create a new list 
+    #that is sorted from lowes value to the highest value
+    #The key=lambda x:x [1] is a function that let me look through the
+    #list of list and only picking the value in the zero index from that list
+    #within the list
     sorted_list = sorted(list_of_list, key=lambda x:x[1])
+    # initalize a for loop to only loop 10 times
     for index in range(10):
+        # Append the sorted list by going through each of the 
+        # list by using the [index] and it would go up 10 times.
+        # It would then look at the zero index of that list and 
+        # append it along with the zero index within that list
+        #This would append those results into the top_ten list in the form of a tuple
         low_ten.append((sorted_list[index][0],sorted_list[index][1]))
+    #return the list of tuple containing the top 10 lowest opening price with their dates
     return low_ten
 
-
+# a function that take a list of list and filter it so it have a list with the month/year
 def filter_month(list_of_list):
+    """Filter through the list of list to get a list of the months with the year.
+
+    Args:
+        list_of_list: a list of list of the prices and dates
+
+    Returns:
+        a list of months/years that doens't repeat
+
+    """
+    #create an empty list
     list_filter_month = []
+    # start a for loop that goes through the list of list
     for list_val in list_of_list:
+        # if statement if the list within the list in index 0 
+        # from the string index 0 to 1 along with the string / and 
+        # the list within the list in index 0 from the string index 6 to 9
+        # combine together are in the list list_filter_month
         if (list_val[0][:2]+'/'+list_val[0][6:10])in list_filter_month:
+            #The for loop would continue to the next list
             continue
+        #append the list within the list in index 0 
+        # from the string index 0 to 1 along with the string / and 
+        # the list within the list in index 0 from the string index 6 to 9
+        # combine together to the list list_filter_month
         list_filter_month.append(list_val[0][:2]+'/'+list_val[0][6:10])
+    #return the list of months/years
     return list_filter_month
 
-
+# a function to take in a list of prices within one month to find the average amount
 def one_month_average(list_opening):
+    """Take in a list of values and returns the average of them
+
+    Args:
+        list_opening: a list of prices within one month
+
+    Returns:
+        the average of the list of prices within one month
+
+    """
+    #returns the average of the list of prices within on month 
+    # by getting the sum of the list and dividing it by the 
+    # length of the list
     return sum(list_opening)/len(list_opening)
 
-
+# a function to take a list of list and the months to find the average opening price per month
 def average_month_opening(list_of_list, months):
-    """
-    Parameter: 
+    """Take a list of a list and the months to find the average opening prices for each months
+
+    Args: 
         list_of_list: a list of a list of value from the csv file 
         months :a list of months as well as years
-    returns:
+    
+    Returns:
         a list of tuple of all the average for every months' opening price
+
     """
+    # create an empty list
     list_average_opening = []
+    # create a variable and set it to interger 0
     starting_point = 0
+    #start a for loop going through the list of months given as a parameter
     for list_mon in months:
+        #split the months/years of one of the strings that is 
+        # within the list of months 
+        # and set it to the variable month_year
+        # month_year become a list with the month and the year
         month_year = list_mon.split('/')
+        # create an empty list
         list_one_opening = []
+        # start a for loop that goes in range with the starting_points
+        # as where the loop will start and the length of the list of list
+        # as the ending point of where the loop will stop
         for list_index in range(starting_point, len(list_of_list)):
+            # go into the list of list and go through each of the list with []
+            # and list_index as the index of which list.
+            # go with the zero index within that list and split the string /
+            # to create a list of the dates and set them to the variable date_list
             date_list = list_of_list[list_index][0].split('/')
+            # if statement if the list_index added by 1 is equal
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is not equal
+            # to the date_list zero index or the month_year first index
+            # is not equal to the date_list 2nd index
             if list_index + 1 == len(list_of_list) and\
                 month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                #append the list_average_opening list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_opening which is a list of
+                # the opening prices within that one month
                 list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+                # set the starting_point variable to the list_index so it doesn't start the for loop
+                # from the very beginning
                 starting_point = list_index
+                # break this for loop to get out of this loop
                 break
+            # An elif statement if the list_index added by 1 is equal 
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index and the index of the 
+            # list_mon from the list months + 1 is equal to the 
+            # length of the months list.
             elif list_index + 1 == len(list_of_list) and\
                 (month_year[0] == date_list[0] and\
                 month_year[1] == date_list[2]) and\
                 months.index(list_mon) + 1 == len(months):
+                # append the value that is in the first index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_opening
                 list_one_opening.append(list_of_list[list_index][1])
+                #append the list_average_opening list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_opening which is a list of
+                # the opening prices within that one month
                 list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+            #an elif statement if the list_index added by 1 is equal 
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index
             elif list_index + 1 == len(list_of_list) and\
                 (month_year[0] == date_list[0] and\
                 month_year[1] == date_list[2]):
+                # set the list_one_opening to an empty list again
                 list_one_opening = []
+                # append value that is in the first index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_opening
                 list_one_opening.append(list_of_list[list_index][1])
+                #append the list_average_opening list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_opening which is a list of
+                # the opening prices within that one month
                 list_average_opening.append((list_mon, one_month_average(list_one_opening)))
+            # an elif statement if it have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index
             elif month_year[0] == date_list[0] and month_year[1] == date_list[2]:
+                # append value that is in the first index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_opening
                 list_one_opening.append(list_of_list[list_index][1])
+            # an elif statement if it have the zero index of the month_year is not equal
+            # to the date_list zero index or the month_year first index 
+            # is not equal to the date_list 2nd index
             elif month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                #append the list_average_opening list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_opening which is a list of
+                # the opening prices within that one month
                 list_average_opening.append(
                     (list_mon, one_month_average(list_one_opening))
                 )
+                # set the starting_point variable to the list_index so it doesn't start the for loop
+                # from the very beginning
                 starting_point = list_index
+                # break this for loop to get out of the loop
                 break
+    # return the list of the tuple containing the months with average opening price for that month
     return list_average_opening
 
-
+# a function to take a list of list and the months to find the average closing price per month
 def average_month_closing(list_of_list, months):
-    """
-    Parameter: 
+    """Take a list of a list and the months to find the average closing prices for each months
+
+    Args: 
         list_of_list: a list of a list of value from the csv file 
         months :a list of months as well as years
-    returns:
+    
+    Returns:
         a list of tuple of all the average for every months' closing price
+
     """
+    # create an empty list
     list_average_closing = []
+    #set a variable to a sorted of the list
     starting_point = 0
+    #start a for loop going through the list of months given as a parameter
     for list_mon in months:
+        #split the months/years of one of the strings that is 
+        # within the list of months 
+        # and set it to the variable month_year
+        # month_year become a list with the month and the year
         month_year = list_mon.split('/')
+        # create an empty list
         list_one_closing = []
+        # start a for loop that goes in range with the starting_points
+        # as where the loop will start and the length of the list of list
+        # as the ending point of where the loop will stop
         for list_index in range(starting_point, len(list_of_list)):
+            # go into the list of list and go through each of the list with []
+            # and list_index as the index of which list.
+            # go with the zero index within that list and split the string /
+            # to create a list of the dates and set them to the variable date_list
             date_list = list_of_list[list_index][0].split('/')
+            # if statement if the list_index added by 1 is equal 
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is not equal
+            # to the date_list zero index or the month_year first index 
+            # is not equal to the date_list 2nd index
             if list_index + 1 == len(list_of_list) and\
                 month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                #append the list_average_closing list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_closing which is a list of
+                # the closing prices within that one month
                 list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+                # set the starting_point variable to the list_index so it doesn't start the for loop
+                # from the very beginning
                 starting_point = list_index
+                # break this for loop to get out of this loop
                 break
+            # An elif statement if the list_index added by 1 is equal 
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index and the index of the 
+            # list_mon from the list months + 1 is equal to the 
+            # length of the months list.
             elif list_index + 1 == len(list_of_list) and\
                 (month_year[0] == date_list[0] and\
                 month_year[1] == date_list[2]) and\
                 months.index(list_mon) + 1 == len(months):
+                # append the value that is in the 4th index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_closing
                 list_one_closing.append(list_of_list[list_index][4])
+                #append the list_average_closing list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_closing which is a list of
+                # the closing prices within that one month
                 list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+            #an elif statement if the list_index added by 1 is equal 
+            # to the length of the list of the list
+            # and it also have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index
             elif list_index + 1 == len(list_of_list) and\
                 (month_year[0] == date_list[0] and\
                 month_year[1] == date_list[2]):
+                # set the list_one_closing to an empty list again
                 list_one_closing = []
+                # append value that is in the 4th index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_closing
                 list_one_closing.append(list_of_list[list_index][4])
+                #append the list_average_closing list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_closing which is a list of
+                # the closing prices within that one month
                 list_average_closing.append((list_mon, one_month_average(list_one_closing)))
+            # an elif statement if it have the zero index of the month_year is equal
+            # to the date_list zero index and the month_year first index 
+            # is equal to the date_list 2nd index
             elif month_year[0] == date_list[0] and month_year[1] == date_list[2]:
+                # append value that is in the 4th index of the list 
+                # of the index variable known as
+                # list_index within the list of list to a list known as list_one_closing
                 list_one_closing.append(list_of_list[list_index][4])
+            # an elif statement if it have the zero index of the month_year is not equal
+            # to the date_list zero index or the month_year first index 
+            # is not equal to the date_list 2nd index
             elif month_year[0] != date_list[0] or month_year[1] != date_list[2]:
+                #append the list_average_closing list with a tuple of the list_mon which
+                # is a string of the month/year and a value that the function one_month_average
+                # will return once it get the parameter list_one_closing which is a list of
+                # the closing prices within that one month
                 list_average_closing.append(
                     (list_mon, one_month_average(list_one_closing))
                 )
+                # set the starting_point variable to the list_index so it doesn't start the for loop
+                # from the very beginning
                 starting_point = list_index
+                # break this for loop to get out of this loop
                 break
+    # return the list of the tuple containing the months with average closing price for that month
     return list_average_closing
 
-
+# a function that take a list of tuple and find the date within them
 def convert_tuple_date(list_tuple):
+    """Take a list of tuple and return a list of dates from the tuple
+
+    Args:
+        list_tuple: A list of tuple containing months and prices
+    
+    Return:
+        a list of dates
+
+    """
+    # create an empty list
     list_date = []
+    # start a for loop that look through the list of tuple
     for val_tuple in list_tuple:
+        # append the zero index of the tuple to the list_date
         list_date.append(val_tuple[0])
+    # return the list containing the dates
     return list_date
 
-
+# a function that take a list of tuple and find the average price within them
 def convert_tuple_avg(list_tuple):
+    """Take a list of tuple and return a list of average price from the tuple
+
+    Args:
+        list_tuple: A list of tuple containing months and prices
+
+    Return:
+        a list of average price
+
+    """
+    # create an empty list
     list_avg = []
+    # start a for loop that look through the list of tuple
     for val_tuple in list_tuple:
+        # append the zero index of the tuple to the list_avg
         list_avg.append(val_tuple[1])
+    # return the list containing the average price
     return list_avg
+
+#This function will take in a value and turn it into a str with commas divided between them
+# first it will turn it into a float and then go through a series of if statements
+# This will allow the function to determine how much it is worth and make the float into a string
+# This will allow the function to slice it and place the commas in between
+# THis will return the functions into the value
+def convert_to_str(value):
+    """Takes a value and convert it into a string with commas
+
+    Args:
+        value: a value of str, int, or float
+
+    Return:
+        a value that is a string with commas divide if the value is too big
+
+    """
+    f_value = float(value)
+    if f_value >= 1000 and f_value < 10000:
+        s_value = str(f_value)
+        return s_value[0] + ',' + s_value[1:]
+    elif f_value >= 10000 and f_value < 100000:
+        s_value = str(f_value)
+        return s_value[:2] + ',' + s_value[2:]
+    elif f_value >= 100000 and f_value < 1000000:
+        s_value = str(f_value)
+        return s_value[:3] + ',' + s_value[3:]
+    elif f_value >= 1000000 and f_value < 10000000:
+        s_value = str(f_value)
+        return s_value[0] + ',' + s_value[1:4] + ',' + s_value[4:]
 
 
 #Define the opening graph function
